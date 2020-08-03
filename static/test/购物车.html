@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>vue购物车</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+	</head>
+	<style type="text/css">
+		.box {
+			width: 800px;
+			margin: 0 auto;
+		}
+
+		.table-bordered>tbody>tr>th,
+		.table-bordered>tbody>tr>td {
+			text-align: center;
+		}
+
+		.table>tbody+tbody {
+			border: 0;
+		}
+
+		.table {
+			margin-bottom: 0;
+		}
+
+		.sum {
+			height: 20px;
+			width: 800px;
+			margin: 0 auto;
+		}
+	</style>
+	<body>
+		<div class="box row" id="demo">
+			<table class="table table-bordered">
+				<tr>
+					<th>ID</th>
+					<th>商品名称</th>
+					<th>日期</th>
+					<th>价格</th>
+					<th>数量</th>
+					<th>小计</th>
+					<th>操作</th>
+				</tr>
+				<tbody>
+					<tr v-for="(item,index) in goods">
+						<td>{{index+1}}</td>
+						<td>{{item.name}}</td>
+						<td>{{item.time}}</td>
+						<td>￥{{item.price}}.00</td>
+						<td>
+							<button type="button" @click="reduce(index)">-</button>
+							<span>{{item.count}}</span>
+							<button type="button" @click="add(index)">+</button>
+						</td>
+						<td>￥{{item.price * item.count}}.00</td>
+						<td>
+							<a href="javascript:;" @click="del(index)">删除</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="sum">
+				<span>商品总价:</span>
+				<span >￥{{sum}}.00</span>
+			</div>
+		</div>
+		
+	</body>
+</html>
+<script src="js/jquery-3.4.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+	let time = new Date()
+	let y = time.getFullYear()
+	let m = time.getMonth() + 1
+	let d = time.getDate()
+	let H = time.getHours()
+	let min = time.getMinutes()
+	let myDate = y + '-' + m + '-' + d + '-' + H + ':' + min
+	let goods = [
+				{name: '炸酱面',time: myDate,price: 4,count: 2,sub:4},
+				{name: '裹粉',time: myDate,price: 2,count: 4,sub:3},
+				{name: '方便面',time: myDate,price: 5,count: 3,sub:5},
+				{name: '洗发水',time: myDate,price: 2,count: 1,sub:2},
+				{name: '沐浴露',time: myDate,price: 3,count: 2,sub:6}
+				]
+
+	
+	
+	let app = new Vue({
+		el: '#demo',
+		data: {
+			goods,
+			// sum:0
+		},
+		// created () {
+		// 	this.Total()
+		// },
+		computed: {
+			// 成为了组件中的数据  相当于定义data  这个的值是通过计算出来的
+			sum: function(){
+				// 使用计算属性computed,good变化,sum跟着变化
+				let total = 0;
+				for(var prop of this.goods) {
+					// 小计
+					total +=  prop.price * prop.count
+				}
+				return total
+			}
+		}, 
+		methods: {
+			// 添加数量
+			add(index) {
+				// 一层层往下找,找到对应下标'数量',让其++
+				this.goods[index].count++
+			},
+			// 减
+			reduce(index) {
+				// 数量大于1才可以减,否则让为1
+				if(this.goods[index].count>1){
+					// 一层层往下找,找到对应下标'数量',让其--
+					this.goods[index].count--
+				}
+				else{
+					this.goods[index].count=1
+				}
+			},
+			// Total(){
+			// 	// 循环列表长度,列表里每一个商品的小计加起来就是总价钱
+			// 	let total = 0;
+			// 	for(var prop of this.goods) {
+			// 		total +=  prop.price * prop.count
+			// 	}
+			// 	// 小计总和赋值给总价
+			// 	this.sum=total
+			// },
+			del(index){
+				this.goods.splice(index,1)
+			}
+		}
+	})
+</script>

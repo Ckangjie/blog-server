@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			li{
+				list-style: none;
+			}
+			#demo{
+				width: auto;
+				height: 50px;
+				margin: 0 auto;
+				position: relative;
+				text-align: center;
+			}
+			.box{
+				font-size: 20px;
+				font-weight: 700;
+				color: gold;
+			}
+			.active{
+				font-size: 30px;
+				color: brown;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="demo">
+			<div>{{name}}</div>
+			<div v-html="html"></div>
+			<div v-bind:class="type">哈哈哈哈</div>
+			<p v-if="seen">显示为ture和隐藏false</p>
+			<a v-bind:href="url">百度一下</a>
+			<div @click="click">
+				负极电极时间
+				<p @click.stop="click1">自点击事件</p>
+			</div>
+			<p v-bind:class="{active:isActive,box:box}">active</p>
+			<ul>
+				<li v-for="list in lists">{{list.item}}</li>
+			</ul>
+			<p v-for="item in lists">{{item.item}}</p>
+			<p  v-bind:class="type">{{message}}</p>
+			<button v-on:click="reverseMessage"  v-bind:class="type">文字反转</button>
+	
+			<p v-bind:class="type"></p>
+			<input v-model="message" />
+			
+			<ul>
+				<!-- 自定义组件 -->
+				<list-item 
+				v-for="item in (lists)"
+				v-bind:item="item"
+				v-bind:key="item.id"
+				></list-item>
+			</ul>
+		
+			<ul>
+				<li v-for="(value,name,index) in obj">{{index}}:{{name}}:{{value}}</li>
+			</ul>
+			<input type="text" v-model="name"/>
+			<p>{{name}}</p>
+		</div>
+	</body>
+</html>
+<script src="https://cdn.bootcss.com/vue/2.6.9/vue.js"></script>
+<script>
+	
+	// 自定义组件(标签)list-item
+	Vue.component('list-item',{
+		// 让list-item 接收一个item
+		props:['item'],
+		template:`<li>{{item.item}}</li>`
+	})
+	
+	let data={
+		name:'hello Vue.js',
+		html:`<span style="color:red">这是一句话</span>`,
+		seen:true,
+		type:'box',
+		url:"www.baidu.com",
+		isActive:true,
+		box:true,
+		message:'文字反转',
+		lists:[
+			{item:'第一项'},
+			{item:'第二项'},
+			{item:'第三项'},
+			{item:'第四项'},
+		],
+		arr:[
+			{item:'颠三倒四'},
+			{item:'sdsdsd'}
+		],
+		obj:{
+			name:'ckj',
+			age:23,
+			sex:'男'
+		}
+	}
+	let vue = new Vue({
+		el:'#demo',
+		data:data,
+		methods:{
+			click:function(){
+				console.log('负极电极时间')
+			},
+			click1:function(){
+				console.log('子点击事件')
+				console.log(this.name)
+			},
+			 reverseMessage:function(){
+				 this.message = this.message.split('').reverse().join('')
+			 }
+		}
+	})
+	
+	vue.$watch('name',function(newVal,oldVal){
+		// console.log(newVal,oldVal)
+	})
+	// vue.$data.name='你好Vue.js'
+	vue.lists.push({item:'第六项'})
+	console.log(vue)
+	// data.name='你好Vue.js'
+	// vue.$watch('name',function(newVal,oldVal){
+	// 	console.log(newVal.oldval)
+	// })
+
+</script>

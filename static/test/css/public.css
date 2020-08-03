@@ -1,0 +1,506 @@
+/* 字体 颜色  背景色 行高 外边距 内边距 浮动 清除浮动 超出隐藏 */
+
+/* 标签类 */
+a{
+	text-decoration: none;
+}
+
+li{
+	list-style: none;
+}
+
+body{
+	min-width: 1200px;
+	font-family: "微软雅黑",arial;
+	font-size: 12px;
+}
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+/* 主标题 */
+.main-tit{
+	height: 60px;
+	line-height: 58px;
+	border-bottom: 2px solid #FF2D52;
+	color: #ff2d52;
+	font-size: 24px;
+	font-weight: bold;
+	margin-top: 20px;
+}
+/* 清除浮动 */
+.clear-fix:after{
+	content: '';
+	clear: both;
+	display: block;
+}
+.content{
+	width: 1200px;
+	margin: 0 auto;
+}
+/* 字体 */
+.font-12 {
+	font-size: .12rem;
+}
+
+.font-14 {
+	font-size: .14rem;
+}
+
+.font-16 {
+	font-size: .16rem;
+}
+
+.font-18 {
+	font-size: .18rem;
+}
+
+.font-20 {
+	font-size: .2rem;
+}
+
+.font-22 {
+	font-size: .22rem;
+}
+
+.font-24 {
+	font-size: .24rem;
+}
+
+.font-30 {
+	font-size: .3rem;
+}
+
+.font-36 {
+	font-size: .36rem;
+}
+
+/* 颜色 */
+
+
+/* 主色调 */
+.text-main {
+	color: #FF0000;
+}
+/* 激活色 */
+
+.text-main-active {
+	color: darksalmon;
+}
+
+/* 字体颜色 */
+
+.text-drank {
+	/* color: red; */
+	color: #CDCDCDCD;
+	color: gray;
+}
+
+.text-white {
+	/* color: red; */
+	color: #CDCDCDCD;
+	color: white;
+}
+
+.text-gray {
+	color: gray;
+}
+.text-2d52{
+	color: #FF2D52;
+}
+.text-ff6600{
+	color:#ff6600;
+}
+/* 背景颜色 */
+.bg-main {
+	background: #FF0000;
+}
+
+.bg-gray {
+	background: gray;
+}
+
+.bg-black {
+	background: black;
+}
+
+/* 行高 */
+.line-22 {
+	line-height: 22px;
+}
+
+.line-24 {
+	line-height: 24px;
+}
+
+.line-36 {
+	line-height: 36px;
+}
+
+.line-48 {
+	line-height: 48px;
+}
+
+/* 浮动 */
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+/* 清除浮动 */
+
+.clearfix:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+/* 外边距 */
+/* 外边距5 */
+.margin-5 {
+	margin: .05rem;
+}
+
+.margin-5-l {
+	margin-left: .05rem;
+}
+
+.margin-5-r {
+	margin-right: .05rem;
+}
+
+.margin-5-t {
+	margin-top: .05rem;
+}
+
+.margin-5-b {
+	margin-bottom: .05rem;
+}
+
+/* 外边距10 */
+.margin-10 {
+	margin: .1rem;
+}
+
+.margin-10-l {
+	margin-left: .1rem;
+}
+
+.margin-10-r {
+	margin-right: .1rem;
+}
+
+.margin-10-t {
+	margin-top: .1rem;
+}
+
+.margin-10-b {
+	margin-bottom: .1rem;
+}
+
+/* 外边距15 */
+.margin-15 {
+	margin: .15rem;
+}
+
+.margin-15-l {
+	margin-left: .15rem;
+}
+
+.margin-15-r {
+	margin-right: .15rem;
+}
+
+.margin-15-t {
+	margin-top: .15rem;
+}
+
+.margin-15-b {
+	margin-bottom: .15rem;
+}
+
+/* 外边距20 */
+.margin-20 {
+	margin: .2rem;
+}
+
+.margin-20-l {
+	margin-left: .2rem;
+}
+
+.margin-20-r {
+	margin-right: .2rem;
+}
+
+.margin-20-t {
+	margin-top: .2rem;
+}
+
+.margin-20-b {
+	margin-bottom: .2rem;
+}
+
+/* 外边距25 */
+.margin-25 {
+	margin: .25rem;
+}
+
+.margin-25-l {
+	margin-left: .25rem;
+}
+
+.margin-25-r {
+	margin-right: .25rem;
+}
+
+.margin-25-t {
+	margin-top: .25rem;
+}
+
+.margin-25-b {
+	margin-bottom: .25rem;
+}
+
+/* 外边距30 */
+.margin-30 {
+	margin: .3rem;
+}
+
+.margin-30-l {
+	margin-left: .3rem;
+}
+
+.margin-30-r {
+	margin-right: .3rem;
+}
+
+.margin-30-t {
+	margin-top: .3rem;
+}
+
+.margin-30-b {
+	margin-bottom: .3rem;
+}
+
+/* 左右外边距 */
+.margin-10-lr{
+	margin-left: .1rem;
+	margin-right: .1rem;
+}
+
+.margin-15-lr{
+	margin-left: .15rem;
+	margin-right: .15rem;
+}
+
+.margin-20-lr{
+	margin-left: .2rem;
+	margin-right: .2rem;
+}
+
+.margin-5-bt{
+	margin-top: .05rem;
+	margin-bottom: .05rem;
+}
+
+.margin-10-bt{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.margin-15-bt{
+	margin-top: .15rem;
+	margin-bottom: .15rem;
+}
+
+
+/* 内边距 */
+.padding-5-bt{
+	padding-top: .05rem;
+	padding-bottom: .05rem;
+}
+
+.padding-10-bt{
+	padding-top: .1rem;
+	padding-bottom: .1rem;
+}
+
+.padding-5-lr{
+	padding-left: .05rem;
+	padding-right: .05rem;
+}
+
+.padding-10-lr{
+	padding-left: .1rem;
+	padding-right: .1rem;
+}
+
+/* 内边距 */
+.padding-5 {
+	padding: .05rem;
+}
+
+/* 内边距5 */
+.padding-5-l {
+	padding-left: .05rem;
+}
+
+.padding-5-r {
+	padding-right: .05rem;
+}
+
+.padding-5-t {
+	padding-top: .05rem;
+}
+
+.padding-5-b {
+	padding-bottom: .05rem;
+}
+
+/* 内边距10 */
+.padding-10-l {
+	padding-left: .1rem;
+}
+
+.padding-10-r {
+	padding-right: .1rem;
+}
+
+.padding-10-t {
+	padding-top: .1rem;
+}
+
+.padding-10-b {
+	padding-bottom: .1rem;
+}
+
+/* 内边距15 */
+.padding-15-l {
+	padding-left: .15rem;
+}
+
+.padding-15-r {
+	padding-right: .15rem;
+}
+
+.padding-15-t {
+	padding-top: .15rem;
+}
+
+.padding-15-b {
+	padding-bottom: .15rem;
+}
+
+/* 内边距20 */
+.padding-20-l {
+	padding-left: .2rem;
+}
+
+
+.padding-25-l {
+	padding-left: 25px;
+}
+
+.padding-20-r {
+	padding-right: .2rem;
+}
+
+.padding-20-t {
+	padding-top: .2rem;
+}
+
+
+.padding-20-b {
+	padding-bottom: .2rem;
+}
+
+.padding-30-t {
+	padding-top: .3rem;
+}
+
+
+/* 超出隐藏 */
+.text-hidden {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.text-hidden-2{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+}
+.hidden {
+	overflow: hidden;
+	/* text-overflow: ellipsis; */
+	white-space: nowrap;
+}
+
+.line-through{
+	text-decoration: line-through;
+}
+/* 按钮 */
+.button{
+	display: inline-block;
+	background:#fff;
+	border: 1px solid #e2e2e2;
+	border-radius: 5px;
+	padding: 5px .1rem;
+}
+.button.button-main, .button-main-hover:hover{
+	background: #FF2D52;
+	color: #fff;
+	border: 0;
+}
+.button.button-main:hover{
+	background-color: #EC193E;
+	border: 0;
+}
+
+/* 翻页 */
+.Pageturning{
+	width: 100%;
+	/* float: left; */
+	height: 70px;
+	/* margin-top: -.2rem; */
+	border-bottom: 1px solid #CCCCCC;
+}
+.Pageturning-item{
+	width: 280px;
+	height: 30px;
+	position: absolute;
+	top: 35px;
+	margin-top: -.15rem;
+	right: 0;
+	line-height: 30px;
+}
+.Pageturningbtn{
+	line-height: 30px;
+	width: 50px;
+	text-align: center;
+	height: 30px;
+	color: #000000;
+	border: 1px solid #CCCCCC;
+	border-radius: 3px;
+}
+.Pageturning-number li{
+	width: 30px;
+	height: 30px;
+	float: left;
+	border-radius: 2px;
+	text-align: center;
+	line-height: 30px;
+	margin-left: 5px;
+	border: 1px solid #CCCCCC;
+}
+.Pageturning-number li:hover{
+	background:#FF2D52;
+	cursor: pointer;
+	border: 1px solid #FF2D52;
+}

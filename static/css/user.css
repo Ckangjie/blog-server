@@ -1,0 +1,82 @@
+.user h3{
+	text-align: center;
+}
+
+*{
+	padding: 0;
+	margin: 0;
+}
+li{
+	float: left;
+	list-style: none;
+}
+.table li{
+	padding: 8px;
+	width: 20%;
+	font-weight: 700;
+	text-align: center;
+}
+.table{
+	margin-bottom: 0;
+}
+.table th,.table td{
+	text-align: center;
+}
+
+.user .userName{
+	text-decoration: underline;
+}
+.user .user-status{
+	position: absolute;
+	right: 250px;
+    top: 0;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+}
+.user .loginout{
+	text-decoration: underline;
+	position: absolute;
+	left: 85%;
+	top: 0;
+	height: 40px;
+	padding: 0 5px;
+	text-align: center;
+	line-height: 40px;
+	cursor: pointer;
+}
+.user .addUser{
+	cursor: pointer;
+	text-decoration: underline;
+	position: absolute;
+	left: 90%;
+	top: 0;
+	height: 40px;
+	padding: 0 5px;
+	text-align: center;
+	line-height: 40px;
+}
+.table-box{
+	margin-left: 50%;
+	transform: translate(-50%);
+
+}
+.table>tbody+tbody{
+	border-top: 0;
+}
+.dbtn:hover,.ubtn:hover{
+	color: red;
+	text-decoration: none;
+	
+}
+.dbtn:focus,.ubtn:focus{
+	text-decoration: none;
+}
+.modal-backdrop.in{
+	display: none;
+}
+.search-box{
+	width: 400px;
+	position: relative;
+	left: 20%;
+}

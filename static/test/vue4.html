@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<ul>
+				<li v-for="item in list" :key="item.id" @click="fn1(item.id)">
+					{{ item.name }}
+				</li>
+			</ul>
+			 <!-- isLove为true的 -->
+			<ul>
+				<li v-for="item in newList" :key="item.id">
+					{{ item.name }}
+				</li>
+			</ul>
+		</div>
+		<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+		<script type="text/javascript">
+			new Vue({
+				el: '#app',
+				data: {
+					list: [{
+							id: 1,
+							name: '雷霆',
+							isLove: false
+						},
+						{
+							id: 2,
+							name: '火箭',
+							isLove: false
+						},
+						{
+							id: 3,
+							name: '湖人',
+							isLove: false
+						},
+						{
+							id: 4,
+							name: '雄鹿',
+							isLove: false
+						},
+						{
+							id: 5,
+							name: '勇士',
+							isLove: false
+						}
+					]
+				},
+				methods: {
+					fn1: function(index) {
+						console.log(this.list[index - 1].name)
+						this.list[index - 1].isLove = !this.list[index - 1].isLove
+					}
+				},
+				computed: {
+					newList: function() {
+						return this.list.filter(item => {
+							return item.isLove
+						})
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

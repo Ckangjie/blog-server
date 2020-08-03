@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>用户中心</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/user.css" />
+	</head>
+	<body>
+		<div class="user">
+			<h3>欢迎回来</h3>
+			<div class="user-status">
+				<p class="on">欢迎用户:<span class="userName"></span></p>
+			</div>
+			<div class="loginout">
+				<span>退出登录</span>
+			</div>
+			<div class="addUser" data-toggle="modal" data-target="#addModal">
+				<span>添加</span>
+			</div>
+		</div>
+		<div class="search-box">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label class="control-label col-xs-2"></label>
+					<div class="col-xs-8">
+						<input type="text" name="value" placeholder="搜索关键字" class="form-control"/>
+					</div>
+					<a type="button" class="search-btn btn">搜索</a>
+				</div>
+			</form>
+		</div>
+		<div class="row table-box">
+			<table class="table table-hover table-bordered">
+				<tr>
+					<th>ID</th>
+					<th>姓名</th>
+					<th>密码</th>
+					<th>邮箱</th>
+					<th>操作</th>
+				</tr>
+
+				<tbody id="content">
+					<tr>
+						<td>1</td>
+						<td>小李</td>
+						<td>123</td>
+						<td>xx@qq.com</td>
+						<td>
+							<a href="javascipt:;" class="ubtn">修改</a>
+							<a href="javascipt:;" class="dbtn">删除</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- 修改信息 -->
+		<div class="modal fade" id="modal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div>
+							<button type="button" class="close" data-dismiss="modal">X</button>
+							<h4 class="modal-title">修改信息</h4>
+						</div>
+					</div>
+					<div class="modal-body row">
+						<div class="">
+							<form class="form-horizontal form-data">
+								<div class="form-group">
+									<label class="col-xs-2 control-label">ID</label>
+									<div class="col-xs-8">
+										<input type="text" name="id" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-xs-2 control-label">姓名</label>
+									<div class="col-xs-8">
+										<input type="text" name="name" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-xs-2 control-label">密码</label>
+									<div class="col-xs-8">
+										<input type="password" name="pwd" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-xs-2 control-label">邮箱</label>
+									<div class="col-xs-8">
+										<input type="text" name="email" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-xs-2 control-label">图片</label>
+									<div class="col-xs-8">
+										<input multiple type="file" name="img" class="form-control" placeholder="头像" />
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-primary upBtn">确认</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 添加用户 -->
+		<div class="modal fade" id="addModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div>
+							<button type="button" class="close" data-dismiss="modal">X</button>
+							<h4 class="modal-title">添加用户</h4>
+						</div>
+					</div>
+					<div class="modal-body row">
+						<div class="">
+							<form class="form-horizontal form-data">
+								<!-- <div class="form-group">
+									<label class="col-xs-2 control-label">ID</label>
+									<div class="col-xs-8">
+										<input type="text" name="adid" class="form-control" />
+									</div>
+								</div> -->
+								<div class="form-group">
+									<label class="col-xs-2 control-label">姓名</label>
+									<div class="col-xs-8">
+										<input type="text" name="adname" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-xs-2 control-label">密码</label>
+									<div class="col-xs-8">
+										<input type="password" name="adpwd" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-xs-2 control-label">邮箱</label>
+									<div class="col-xs-8">
+										<input type="text" name="ademail" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-xs-2 control-label">图片</label>
+									<div class="col-xs-8">
+										<input multiple type="file" name="img" class="form-control" placeholder="头像" />
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-primary addBtn" data-dismiss="modal">确认</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+<script src="js/jquery-3.4.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/common.js"></script>
+<script src="../../static/js/md5.js"></script>
+<script src="js/toolTips.js"></script>
+<script src="js/user.js"></script>
