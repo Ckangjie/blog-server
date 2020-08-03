@@ -3,7 +3,6 @@ let common = require('../../data/common.js'),
 	url = require('url'),
 	path = require('path'),
 	formidable = require('formidable');
-const { table } = require('console');
 
 module.exports = {
 	// 文章封面
@@ -17,14 +16,15 @@ module.exports = {
 	// 文章列表
 	async article(req, res) {
 		let params = Object.keys(req.body).length > 0 ? req.body : url.parse(req.url, true).query,
-			data = [Number(params.currentPage), Number(params.pageSize)], total, result;
-		total = await article.getTotal()
+			data = [Number(params.currentPage), Number(params.pageSize), params.client], total, result;
+		total = await article.getTotal(params.client)
 		if (total.length > 0) {
 			result = await article.articleList(data)
 			if (result) {
 				res.json({
 					data: result,
 					status: 200,
+					a: result.length,
 					total: total.length
 				})
 			}
@@ -98,6 +98,7 @@ module.exports = {
 			})
 		}
 	},
+
 	// 分页
 	async paging(req, res) {
 		let params = req.body,
@@ -123,14 +124,18 @@ module.exports = {
 	},
 	// 评论列表
 	async commentList(req, res) {
-		let params = url.parse(req.url, true).query;
-		data = !params.path ? [0] : [params.path, Number(params.currentPage), Number(params.pageSize)]
-		result = await article.commentList(data);
-		if (result) {
-			res.json({
-				data: result,
-				status: 200,
-			})
+		let params = url.parse(req.url, true).query,
+			data = !params.path ? [Number(params.currentPage), Number(params.pageSize)] : [params.path, Number(params.currentPage), Number(params.pageSize)], total, result;
+		total = await article.commentTotal()
+		if (total.length > 0) {
+			result = await article.commentList(data);
+			if (result) {
+				res.json({
+					data: result,
+					status: 200,
+					total: total.length
+				})
+			}
 		}
 	},
 	// 删除评论
@@ -145,4 +150,13 @@ module.exports = {
 			})
 		}
 	},
+	async articleStatus(req, res) {
+		let params = req.query,
+			result = await article.articleStatus([Number(params.status), params.reason, Number(params.id)])
+		if (result) {
+			res.json({
+				status: 200
+			})
+		}
+	}
 }

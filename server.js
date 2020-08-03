@@ -56,6 +56,8 @@ app.post('/readCount', urlencoded, router.readCount)
 app.post('/Delete', urlencoded, router.Delete)
 // 文章搜索
 app.get('/search', router.search)
+// 文章状态
+app.post('/articleStatus', urlencoded, router.articleStatus)
 // 分页
 app.post('/paging', urlencoded, router.paging)
 // 发送验证码
