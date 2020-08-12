@@ -2,7 +2,7 @@ let common = require('../../data/common.js'),
 	article = require('../../data/module/article.js'),
 	url = require('url'),
 	path = require('path'),
-	formidable = require('formidable');
+	formidable = require('formidable')
 
 module.exports = {
 	// 文章封面
@@ -15,9 +15,12 @@ module.exports = {
 	},
 	// 文章列表
 	async article(req, res) {
-		let params = Object.keys(req.body).length > 0 ? req.body : url.parse(req.url, true).query,
-			data = [Number(params.currentPage), Number(params.pageSize), params.client], total, result;
-		total = await article.getTotal(params.client)
+		let params = Object.keys(req.body).length > 0 ? req.body : url.parse(req.url, true).query, total, result, list = [params.client], data = [Number(params.currentPage), Number(params.pageSize), params.client];
+		if (params.author) {
+			data.unshift(params.author)
+			list.unshift(params.author)
+		}
+		total = await article.getTotal(list)
 		if (total.length > 0) {
 			result = await article.articleList(data)
 			if (result) {
@@ -28,6 +31,12 @@ module.exports = {
 					total: total.length
 				})
 			}
+		} else {
+			res.json({
+				data: [],
+				message: '你还没有发表过文章',
+				status: 200
+			})
 		}
 	},
 	// 文章数量
@@ -136,6 +145,12 @@ module.exports = {
 					total: total.length
 				})
 			}
+		} else {
+			res.json({
+				data: [],
+				status: 200,
+				message: '暂无数据'
+			})
 		}
 	},
 	// 删除评论

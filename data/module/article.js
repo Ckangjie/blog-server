@@ -12,20 +12,24 @@ module.exports = {
 	},
 	//文章列表
 	articleList: async function (data) {
-		let sql = data.indexOf('admin') > 0 ? 'select * from article order by readCount DESC limit ?,?' : 'select * from article where status =0 order by readCount DESC LIMIT ?,?',
+		let sql = data.indexOf('admin') > 0 ? 'select * from article order by readCount DESC limit ?,?' : (data.length > 3 ? 'select * from article where status =0 and author=? order by readCount DESC LIMIT ?,?' : 'select * from article where status =0 order by readCount DESC LIMIT ?,?'),
 			result = await query(sql, data).catch(err => {
 				console.log(err)
 			})
 		if (result.length > 0) {
 			return result
+		} else {
+			return false
 		}
 	},
 	// 文章数量
-	getTotal: async function (value) {
-		let sql = value === 'admin' ? 'SELECT * FROM article' : 'SELECT * FROM article where status=0',
-			result = await query(sql)
+	getTotal: async function (data) {
+		let sql = data.indexOf('admin') > 0 ? 'SELECT * FROM article' : (data.length > 1 ? 'SELECT * FROM article where status=0 and author=?' : 'SELECT * FROM article where status=0'),
+			result = await query(sql, data)
 		if (result.length > 0) {
 			return result
+		} else {
+			return reslut = []
 		}
 	},
 	// 文章详情
@@ -76,7 +80,7 @@ module.exports = {
 	},
 	// 留言列表
 	commentList: async function (data) {
-		let sql = data.length <= 2 ? 'select * from comment order by time asc LIMIT ?,?' : 'select * from comment where path = ? order by time asc LIMIT ?,?',
+		let sql = data.length <= 2 ? 'select * from comment order by time asc LIMIT ?,?' : 'select a.id,a.pid,a.time, a.`name`,a.content,a.pid,a.article_id,a.reply_name,b.avatar,b.username from `comment` a LEFT JOIN `user` b on a.`name`=b.name where a.path = ? order by time asc LIMIT ?,?',
 			result = await query(sql, data).catch(err => {
 				console.log(err)
 			})
@@ -92,6 +96,8 @@ module.exports = {
 			result = await query(sql)
 		if (result.length > 0) {
 			return result
+		} else {
+			return result = []
 		}
 	},
 	// 删除评论

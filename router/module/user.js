@@ -58,8 +58,8 @@ module.exports = {
     },
     async userInfo(req, res) {
         var token = req.headers.token,
-            id = req.headers.user_id
-        let result = await user.userInfo(id)
+            id = req.headers.userid;
+        let result = await user.userInfo(Number(id))
         if (result) {
             res.json({
                 status: 200,
@@ -151,16 +151,26 @@ module.exports = {
             username = params.username,
             avatar = params.avatar,
             oldAvatar = params.oldAvatar,
-            id = req.headers.user_id;
-        if (avatar != oldAvatar && oldAvatar) {
-            common.getJsonFiles("static/user", oldAvatar)
-        }
-        result = await user.saveInfo([username, avatar, id])
-        if (result) {
-            res.json({
-                status: 200,
-                message: '修改成功'
-            })
+            id = req.headers.userid;
+        if (oldAvatar != '') {
+            if (avatar) {
+                // common.getJsonFiles("static/user", oldAvatar)
+                result = await user.saveInfo([username, avatar, Number(id)])
+                if (result) {
+                    res.json({
+                        status: 200,
+                        message: '修改成功'
+                    })
+                }
+            }
+        } else {
+            result = await user.saveInfo([username, avatar, Number(id)])
+            if (result) {
+                res.json({
+                    status: 200,
+                    message: '修改成功'
+                })
+            }
         }
     }
 }
