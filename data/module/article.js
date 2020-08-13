@@ -12,7 +12,7 @@ module.exports = {
 	},
 	//文章列表
 	articleList: async function (data) {
-		let sql = data.indexOf('admin') > 0 ? 'select * from article order by readCount DESC limit ?,?' : (data.length > 3 ? 'select * from article where status =0 and author=? order by readCount DESC LIMIT ?,?' : 'select * from article where status =0 order by readCount DESC LIMIT ?,?'),
+		let sql = data.includes('admin') ? 'select * from article order by readCount DESC limit ?,?' : (data.length > 3 ? 'select * from article where status =0 and author=? order by readCount DESC LIMIT ?,?' : 'select * from article where status =0 order by readCount DESC LIMIT ?,?'),
 			result = await query(sql, data).catch(err => {
 				console.log(err)
 			})
@@ -24,7 +24,7 @@ module.exports = {
 	},
 	// 文章数量
 	getTotal: async function (data) {
-		let sql = data.indexOf('admin') > 0 ? 'SELECT * FROM article' : (data.length > 1 ? 'SELECT * FROM article where status=0 and author=?' : 'SELECT * FROM article where status=0'),
+		let sql = data.includes('admin') ? 'SELECT * FROM article' : (data.length > 1 ? 'SELECT * FROM article where status=0 and author=?' : 'SELECT * FROM article where status=0'),
 			result = await query(sql, data)
 		if (result.length > 0) {
 			return result
@@ -51,22 +51,25 @@ module.exports = {
 		}
 	},
 	// 删除文章
-	Delete: async function (id) {
-		let sql = "DELETE FROM article WHERE id=?"
-		result = await query(sql, id)
+	Delete: async function (ids) {
+		let sql = "DELETE FROM article WHERE id in (" + ids + ")"
+		result = await query(sql, ids)
 		if (result) {
 			return true
 		}
 	},
 	// 搜索文章
-	search: async function (value) {
+	search: async function (data) {
 		var sql = ''
-		if (value) {
-			sql = "select * from article where (title like '%" + value + "%' or content like '%" + value + "%') and status =0"
-		} else {
+		if (data.indexOf('/archive') > 0) {
+			sql = "select * from article where (title like '%" + data[0] + "%' or content like '%" + data[0] + "%') and status =0"
+		} else if (data.indexOf('/archive') < 0) {
+			sql = "select * from article where (title like '%" + data[0] + "%' or content like '%" + data[0] + "%')"
+		}
+		else {
 			sql = 'select * from article status =0'
 		}
-		let result = await query(sql, value).catch(function (res) {
+		let result = await query(sql, [data]).catch(function (res) {
 			console.log(res)
 		})
 		return result
@@ -101,9 +104,9 @@ module.exports = {
 		}
 	},
 	// 删除评论
-	deleteComment: async function (id) {
-		let sql = "DELETE FROM comment WHERE id=?"
-		result = await query(sql, id)
+	deleteComment: async function (ids) {
+		let sql = "DELETE FROM comment WHERE id in (" + ids + ")"
+		result = await query(sql, ids)
 		if (result) {
 			return true
 		}

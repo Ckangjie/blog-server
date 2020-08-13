@@ -87,8 +87,8 @@ module.exports = {
 	// 删除文章
 	async Delete(req, res) {
 		let params = req.query,
-			id = params.id;
-		result = await article.Delete(id)
+			ids = params.ids;
+		result = await article.Delete(ids)
 		if (result) {
 			res.json({
 				status: 200,
@@ -98,8 +98,16 @@ module.exports = {
 	},
 	// 文章搜索
 	async search(req, res) {
-		let key = url.parse(req.url, true).query.value,
-			result = await article.search(key)
+		let params = url.parse(req.url, true).query,
+			key = params.value,
+			path = params.path,
+			name = params.name, data = [], client = params.client;
+		if (params.client === 'admin') {
+			data = [key, client]
+		} else {
+			data = [key, path, name]
+		}
+		result = await article.search(data);
 		if (result) {
 			res.json({
 				status: 200,
@@ -149,15 +157,14 @@ module.exports = {
 			res.json({
 				data: [],
 				status: 200,
-				message: '暂无数据'
 			})
 		}
 	},
 	// 删除评论
 	async deleteComment(req, res) {
 		let params = req.query,
-			id = params.id;
-		result = await article.deleteComment(id)
+			ids = params.ids;
+		result = await article.deleteComment(ids)
 		if (result) {
 			res.json({
 				status: 200,
