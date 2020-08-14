@@ -41,6 +41,7 @@ module.exports = {
             res.json({
                 status: 200,
                 message: '登录成功',
+                type: 'success',
                 pagecount: 0,
                 data: {
                     token,
@@ -51,7 +52,7 @@ module.exports = {
         else {
             res.json({
                 status: 511,
-                message: '用户名或者密码不正确'
+                message: '用户名或者密码不正确',
             })
         }
 
@@ -68,7 +69,8 @@ module.exports = {
         } else {
             res.json({
                 status: 208,
-                message: 'token失效'
+                message: 'token失效',
+
             })
         }
 
@@ -81,7 +83,9 @@ module.exports = {
             res.json({
                 status: 200,
                 code,
-                message: '发送成功'
+                message: '发送成功',
+                type: 'success'
+
             })
         })
     },
@@ -96,7 +100,7 @@ module.exports = {
         if (!isCode) {
             res.json({
                 status: 201,
-                message: '验证码错误'
+                message: '验证码错误',
             })
             return false
         }
@@ -105,7 +109,7 @@ module.exports = {
         if (!isRegister) {
             res.json({
                 status: 202,
-                message: '邮箱已被注册'
+                message: '邮箱已被注册',
             })
             return false
         }
@@ -114,7 +118,8 @@ module.exports = {
         if (register) {
             res.json({
                 status: 200,
-                message: '注册成功'
+                message: '注册成功',
+                type: 'success'
             })
         }
     },
@@ -159,7 +164,8 @@ module.exports = {
                 if (result) {
                     res.json({
                         status: 200,
-                        message: '修改成功'
+                        message: '修改成功',
+                        type: 'success'
                     })
                 }
             }
@@ -168,7 +174,8 @@ module.exports = {
             if (result) {
                 res.json({
                     status: 200,
-                    message: '修改成功'
+                    message: '修改成功',
+                    type: 'success'
                 })
             }
         }

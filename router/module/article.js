@@ -27,7 +27,6 @@ module.exports = {
 				res.json({
 					data: result,
 					status: 200,
-					a: result.length,
 					total: total.length
 				})
 			}
@@ -35,7 +34,8 @@ module.exports = {
 			res.json({
 				data: [],
 				message: '你还没有发表过文章',
-				status: 200
+				status: 200,
+				type: 'info'
 			})
 		}
 	},
@@ -69,7 +69,8 @@ module.exports = {
 		if (result) {
 			res.json({
 				status: 200,
-				message: '添加成功'
+				message: '添加成功',
+				type: 'success'
 			})
 		}
 	},
@@ -92,7 +93,8 @@ module.exports = {
 		if (result) {
 			res.json({
 				status: 200,
-				message: '删除成功'
+				message: '删除成功',
+				type: 'success'
 			})
 		}
 	},
@@ -168,7 +170,8 @@ module.exports = {
 		if (result) {
 			res.json({
 				status: 200,
-				message: '删除成功'
+				message: '删除成功',
+				type: 'success'
 			})
 		}
 	},

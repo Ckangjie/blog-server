@@ -24,7 +24,7 @@ module.exports = {
 	},
 	// 文章数量
 	getTotal: async function (data) {
-		let sql = data.includes('admin') ? 'SELECT * FROM article' : (data.length > 1 ? 'SELECT * FROM article where status=0 and author=?' : 'SELECT * FROM article where status=0'),
+		let sql = data.includes('admin') ? 'SELECT * FROM article' : (data.length === 2 ? 'SELECT * FROM article where status=0 and author=?' : 'SELECT * FROM article where status=0'),
 			result = await query(sql, data)
 		if (result.length > 0) {
 			return result
@@ -62,7 +62,7 @@ module.exports = {
 	search: async function (data) {
 		var sql = ''
 		if (data.indexOf('/archive') > 0) {
-			sql = "select * from article where (title like '%" + data[0] + "%' or content like '%" + data[0] + "%') and status =0"
+			sql = "select * from article where (title like '%" + data[0] + "%' or content like '%" + data[0] + "%') and status =0 and author='" + data[2] + "'"
 		} else if (data.indexOf('/archive') < 0) {
 			sql = "select * from article where (title like '%" + data[0] + "%' or content like '%" + data[0] + "%')"
 		}
@@ -83,7 +83,7 @@ module.exports = {
 	},
 	// 留言列表
 	commentList: async function (data) {
-		let sql = data.length <= 2 ? 'select * from comment order by time asc LIMIT ?,?' : 'select a.id,a.pid,a.time, a.`name`,a.content,a.pid,a.article_id,a.reply_name,b.avatar,b.username from `comment` a LEFT JOIN `user` b on a.`name`=b.name where a.path = ? order by time asc LIMIT ?,?',
+		let sql = data.length <= 2 ? 'select * from comment order by time asc LIMIT ?,?' : 'select a.id,a.pid,a.time, a.`name`,a.content,a.pid,a.article_id,a.reply_name,b.avatar,b.username from `comment` a LEFT JOIN `user` b on a.`name`=b.name where a.path = ? order by time desc LIMIT ?,?',
 			result = await query(sql, data).catch(err => {
 				console.log(err)
 			})
