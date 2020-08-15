@@ -14,14 +14,20 @@ module.exports = {
 	},
 	// 注册
 	register: async function (data) {
-		let sql = data.indexOf('@qq.com') ? 'insert into user(name,password) values(?)' : 'insert into admin(username,password) values(?)',
-			result = await query(sql, [data]).catch(function (res) {
+		let flag = true
+		let sql = data.indexOf('@qq.com') ? 'insert into user(name,password) values(?,?)' : 'insert into admin(username,password) values(?,?)',
+			result = await query(sql, data).catch(function (res) {
+				flag = false
+				returnflag
+			}).then(res => {
+				flag = true
+				return flag
 			})
-		return true
+		return flag
 	},
 	// 验证登录信息
 	login: async function (data) {
-		let sql = data.indexOf('client') ? 'select * from user where name =? and password = ?' : 'select * from admin where username =? and password = ?',
+		let sql = !data.includes('admin') ? 'select * from user where name =? and password = ?' : 'select * from admin where username =? and password = ?',
 			result = await query(sql, data).catch(err => {
 				console.log(err)
 			})

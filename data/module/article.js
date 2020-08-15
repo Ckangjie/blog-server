@@ -12,7 +12,7 @@ module.exports = {
 	},
 	//文章列表
 	articleList: async function (data) {
-		let sql = data.includes('admin') ? 'select * from article order by readCount DESC limit ?,?' : (data.length > 3 ? 'select * from article where status =0 and author=? order by readCount DESC LIMIT ?,?' : 'select * from article where status =0 order by readCount DESC LIMIT ?,?'),
+		let sql = data.includes('admin') ? 'select a.`status`,a.id,a.content,a.readCount,a.reason,a.time,a.title,b.username from `article` a LEFT JOIN `user` b on a.author=b.name order by time desc limit ?,?' : (data.length > 3 ? 'select * from article where status =0 and author=? order by readCount DESC LIMIT ?,?' : 'select  a.`status`,a.id,a.content,a.readCount,a.reason,a.time,a.title,b.username from `article` a LEFT JOIN `user` b on a.author=b.name and status=0 order by readCount DESC LIMIT ?,?'),
 			result = await query(sql, data).catch(err => {
 				console.log(err)
 			})
@@ -83,7 +83,7 @@ module.exports = {
 	},
 	// 留言列表
 	commentList: async function (data) {
-		let sql = data.length <= 2 ? 'select * from comment order by time asc LIMIT ?,?' : 'select a.id,a.pid,a.time, a.`name`,a.content,a.pid,a.article_id,a.reply_name,b.avatar,b.username from `comment` a LEFT JOIN `user` b on a.`name`=b.name where a.path = ? order by time desc LIMIT ?,?',
+		let sql = data.length <= 2 ? 'select a.id,a.pid,a.time, a.`name`,a.content,a.pid,a.article_id,a.reply_name,b.avatar,b.username from `comment` a LEFT JOIN `user` b on a.`name`=b.name order by time desc LIMIT ?,?' : 'select a.id,a.pid,a.time, a.`name`,a.content,a.pid,a.article_id,a.reply_name,b.avatar,b.username from `comment` a LEFT JOIN `user` b on a.`name`=b.name where a.path = ? order by time desc LIMIT ?,?',
 			result = await query(sql, data).catch(err => {
 				console.log(err)
 			})

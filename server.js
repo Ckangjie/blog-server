@@ -30,6 +30,9 @@ app.all('*', function (req, res, next) {
 
 // 后/前台登录
 app.post('/login', urlencoded, router.login)
+
+// app.post('/loginAdmin', urlencoded, router.loginAdmin)
+
 // 退出登录
 app.post('/logout', urlencoded, router.logout)
 // 注册

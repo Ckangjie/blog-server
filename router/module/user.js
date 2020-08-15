@@ -4,15 +4,39 @@ let common = require('../../data/common.js'),
     url = require('url'),
     sendEmail = require('../../config/sendEmail'),
     formidable = require('formidable'),
-    path = require('path')
+    path = require('path'),
+    md5 = require('MD5')
 
 module.exports = {
+    // async loginAdmin(req, res) {
+    //     console.log(req)
+    // },
     // 登录
     async login(req, res) {
         let username = req.body.username || req.query.username,
             password = req.body.password || req.query.password,
             client = req.body.client || req.query.client;
-
+        if (client === 'admin') {
+            let isUser = await user.login([username, password, client])
+            if (isUser) {
+                // 获取token
+                // sign(加密数据,加密密钥,token存储时间) 加密用户名
+                let token = jwt.sign({ username, username }, 'ckj', {
+                    // token有效时间为15分钟
+                    expiresIn: 60 * 2 * 1
+                })
+                res.json({
+                    status: 200,
+                    message: '登录成功',
+                    type: 'success',
+                    data: {
+                        token,
+                        id: isUser.id
+                    }
+                })
+            }
+            return false
+        }
         // 判断邮箱格式
         if (!username) {
             res.json({
@@ -30,7 +54,7 @@ module.exports = {
         }
 
         // 数据库查找邮箱和密码
-        let isUser = await user.login([username, password, client])
+        let isUser = await user.login([username, md5(password), client])
         if (isUser) {
             // 获取token
             // sign(加密数据,加密密钥,token存储时间) 加密用户名
@@ -114,7 +138,7 @@ module.exports = {
             return false
         }
         // 注册
-        let register = await user.register([email, password])
+        let register = await user.register([email, md5(password)])
         if (register) {
             res.json({
                 status: 200,
@@ -157,19 +181,10 @@ module.exports = {
             avatar = params.avatar,
             oldAvatar = params.oldAvatar,
             id = req.headers.userid;
-        if (oldAvatar != '') {
-            if (avatar) {
-                // common.getJsonFiles("static/user", oldAvatar)
-                result = await user.saveInfo([username, avatar, Number(id)])
-                if (result) {
-                    res.json({
-                        status: 200,
-                        message: '修改成功',
-                        type: 'success'
-                    })
-                }
+        if (avatar) {
+            if (avatar !== oldAvatar) {
+                common.getJsonFiles("static/user", oldAvatar)
             }
-        } else {
             result = await user.saveInfo([username, avatar, Number(id)])
             if (result) {
                 res.json({
@@ -178,6 +193,11 @@ module.exports = {
                     type: 'success'
                 })
             }
+        } else {
+            res.json({
+                status: 201,
+                message: '请选择图片',
+            })
         }
     }
 }
