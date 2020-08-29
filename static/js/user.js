@@ -110,7 +110,6 @@ $(function() {
 		let index = $(this).closest('tr').index()
 
 		let id = $('td:first-child').eq(index).html()
-		console.log(id)
 		$.ajax({
 			url: api + 'update',
 			type: 'get',

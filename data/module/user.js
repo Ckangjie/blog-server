@@ -15,10 +15,10 @@ module.exports = {
 	// 注册
 	register: async function (data) {
 		let flag = true
-		let sql = data.indexOf('@qq.com') ? 'insert into user(name,password) values(?,?)' : 'insert into admin(username,password) values(?,?)',
+		let sql = data[0].indexOf('@qq.com') > 0 ? 'insert into user(name,password) values(?,?)' : 'insert into admin(username,password) values(?,?)',
 			result = await query(sql, data).catch(function (res) {
 				flag = false
-				returnflag
+				return flag
 			}).then(res => {
 				flag = true
 				return flag
@@ -54,7 +54,9 @@ module.exports = {
 	// 上传头像
 	saveInfo: async function (data) {
 		let sql = 'UPDATE user set username =?,avatar=? WHERE id=?',
-			result = await query(sql, data)
+			result = await query(sql, data).catch(err => {
+				console.log(err)
+			})
 		if (result) {
 			return true
 		}

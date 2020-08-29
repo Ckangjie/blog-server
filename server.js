@@ -5,7 +5,6 @@ let express = require('express'),
 	userData = require('./api/user.json'),
 	obj = {},
 	data = Object.assign(obj, testData, userData),
-
 	app = express(),
 
 	urlencoded = bodyParser.urlencoded({

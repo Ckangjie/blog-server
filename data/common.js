@@ -46,7 +46,7 @@ module.exports = {
 				if (stat.isFile() === true) {
 					fs.unlink(jsonPath + '/' + img, (err) => {
 						if (err) {
-							console.log('已删除图片:' + img)
+							// console.log('已删除图片:' + img)
 						}
 					})
 					jsonFiles.push(fPath);

@@ -2,7 +2,7 @@ let common = require('../../data/common.js'),
 	article = require('../../data/module/article.js'),
 	url = require('url'),
 	path = require('path'),
-	formidable = require('formidable')
+	formidable = require('formidable');
 
 module.exports = {
 	// 文章封面
@@ -16,7 +16,7 @@ module.exports = {
 	// 文章列表
 	async article(req, res) {
 		let params = Object.keys(req.body).length > 0 ? req.body : url.parse(req.url, true).query, total, result, list = [params.client], data = [Number(params.currentPage), Number(params.pageSize), params.client];
-		if (params.author) {
+		if (params.author != undefined) {
 			data.unshift(params.author)
 			list.unshift(params.author)
 		}
@@ -27,7 +27,7 @@ module.exports = {
 				res.json({
 					data: result,
 					status: 200,
-					total: total.length
+					total: total
 				})
 			}
 		} else {
@@ -35,7 +35,8 @@ module.exports = {
 				data: [],
 				message: '你还没有发表过文章',
 				status: 200,
-				type: 'info'
+				type: 'info',
+				total: total
 			})
 		}
 	},
@@ -107,7 +108,11 @@ module.exports = {
 		if (params.client === 'admin') {
 			data = [key, client]
 		} else {
-			data = [key, path, name]
+			if (params.name != undefined) {
+				data = [key, path, name]
+			} else {
+				data = [key, path]
+			}
 		}
 		result = await article.search(data);
 		if (result) {
@@ -183,5 +188,119 @@ module.exports = {
 				status: 200
 			})
 		}
+	},
+	// 电力云数据
+	async getDlyGoods(req, res) {
+
+		let result = await article.getDlyGoods()
+		if (result) {
+			res.json({
+				status: 200,
+				total: result.length,
+				data: result,
+			})
+		}
+		const list = []
+		const goodsItem = [{ "id": "8895", "pic_url": "https:\/\/shop.9026.com\/web\/uploads\/mall21977\/20200813\/56e2c570ba24d54d0612915b030b2ee8.jpg" }]
+		const ggz = [{ "attr_group_id": 1, "attr_group_name": "规格", "attr_list": [{ "attr_id": 2, "attr_name": "默认" }] }]
+		const qyxg = [{ "list": [] }]
+		const ggxq = [{ "id": 12096, "goods_id": 8330, "sign_id": "2", "stock": 1, "price": "0.00", "no": "", "weight": 0, "pic_url": "", "is_delete": 0, "attr_list": [{ "attr_group_name": "\u89c4\u683c", "attr_group_id": 1, "attr_id": 2, "attr_name": "\u9ed8\u8ba4" }] }]
+		result.forEach((item, index) => {
+			if (item.images1.length > 0) {
+				// console.log(item.images1.indexOf(']', item.images1.length - 1))
+				var str = ':"999"}]'
+				if (item.images1.indexOf(']', item.images1.length - 1) < 0) {
+					item.images1 = item.images1 + '"' + str
+					item.images1 = item.images1.replace(/src/g, "pic_url").replace(/sort/g, "id")
+				} else {
+					item.images1 = item.images1.replace(/src/g, "pic_url").replace(/sort/g, "id")
+				}
+			} else {
+				item.images1 = JSON.stringify([{ "pic_url": item.indexpic, "id": "1" }])
+			}
+			// if (item.images1.length > 0) {
+			// 	item.images1 = item.images1.replace(/src/g, "pic_url").replace(/sort/g, "id")
+			// } else {
+			// 	item.images1 = JSON.stringify([{ "pic_url": item.indexpic, "id": "1" }])
+			// }
+			item.序号 = index + 1;
+			item.商品名称 = item.title;
+			item.原价 = item.price1;
+			item.成本价 = item.price2
+			item.商品详情 = result[index].description.length === 0 ? `<p>详情请联系客服</p><p><img src="${result[index].indexpic}" alt="" data-w-e="1"></p>` : `<p>${result[index].description}</p> <p><img src="${result[index].indexpic}" alt="" data-w-e="1"></p>`;
+			item.商品缩略图 = item.indexpic;
+			item.商品轮播图 = JSON.parse(item.images1);
+			item.商品视频 = ' ';
+			item.单位 = item.unit;
+			item.售价 = item.price;
+			item.是否使用规格 = 0;
+			item.规格组 = ggz;
+			item.商品库存 = item.stock;
+			item.虚拟销量 = 0;
+			item.购物数量限制 = 100;
+			item.单品满件包邮 = 0;
+			item.单品满额包邮 = 0;
+			item.赠送积分 = 100;
+			item.赠送积分类型 = 1;
+			item.可抵扣积分 = 0;
+			item.可抵扣积分类型 = 0;
+			item.允许多件累计折扣 = 1;
+			item.商品标识 = ' ';
+			item.自定义分享图片 = ' ';
+			item.自定义分享标题 = ' ';
+			item.排序 = 100;
+			item.限购订单 = -1;
+			item.是否单独区域购买 = 0;
+			item.区域限购详情 = qyxg;
+			item.规格详情 = ggxq;
+			item.是否快速购买 = 0;
+			item.是否热销 = 0;
+			item.是否面议 = 1
+			delete item.price;
+			delete item.title;
+			delete item.price2;
+			delete item.price1;
+			delete item.unit;
+			delete item.description;
+			delete item.stock;
+			delete item.images1;
+			delete item.indexpic;
+			list.push(item)
+		})
+		var fs = require('fs');
+		var iconv = require('iconv-lite');
+		const Json2csvParser = require('json2csv').Parser;
+		const fields = Object.keys(list[0]);
+		const json2csvParser = new Json2csvParser({ fields });
+		const csv = json2csvParser.parse(list);
+		fs.writeFile("./goods/goods.csv", iconv.encode(csv, 'GBK'), function (err) {
+			if (err) {
+				return console.log(err);
+			}
+			console.log("The file was saved!");
+		});
+	},
+	async getClass(req, res) {
+		let result = await article.getClass()
+		if (result) {
+			res.json({
+				status: 200,
+				total: result.length,
+				data: result,
+			})
+		}
+		console.log(result[0])
+		var fs = require('fs');
+		var iconv = require('iconv-lite');
+		const Json2csvParser = require('json2csv').Parser;
+		const fields = Object.keys(result[0]);
+		const json2csvParser = new Json2csvParser({ fields });
+		const csv = json2csvParser.parse(result);
+		fs.writeFile("./goods/class.csv", iconv.encode(csv, 'GBK'), function (err) {
+			if (err) {
+				return console.log(err);
+			}
+			console.log("The file was saved!");
+		});
 	}
 }

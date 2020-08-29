@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			body {
+				perspective: 2500px;
+				/*视角*/
+			}
+
+			.wrap {
+				margin: 100px auto;
+				position: relative;
+				height: 200px;
+				width: 200px;
+				transform-style: preserve-3d;
+				animation: a 20s infinite linear;
+			}
+
+			/* 旋转动画 */
+			@keyframes a {
+				from {
+					transform: rotateX(0deg) rotateY(0deg);
+				}
+
+				to {
+					transform: rotateX(0deg) rotateY(180deg);
+				}
+			}
+
+			.wrap:hover {
+				/* transform: rotateZ(45deg); */
+				transform: rotateY(45deg)
+			}
+
+			.wrap-item {
+				transition: transform 0.2s ease-in;
+				text-align: center;
+				line-height: 200px !important;
+				position: absolute;
+				box-sizing: border-box;
+				height: 100%;
+				width: 100%;
+				opacity: 0.9;
+				border: solid 1px #eee;
+				font: 10px arial;
+			}
+
+			/* 前后在Z轴上进行偏移 */
+			.wrap-item0 {
+				background-color: darkgoldenrod;
+				transform: translateZ(100px);
+			}
+
+			.wrap-item1 {
+				background-color: darkgoldenrod;
+				transform: translateZ(-100px);
+			}
+
+			/* 左右在Y轴上进行偏移 */
+			.wrap-item2 {
+				background-color: darkgoldenrod;
+				transform: translateX(-100px) rotateY(270deg);
+			}
+
+			.wrap-item3 {
+				background-color: darkgoldenrod;
+				transform: translateX(100px) rotateY(-270deg);
+			}
+
+			.wrap-item8 {
+				background-color: darkcyan;
+				transform: translateX(-50px) rotateY(270deg);
+			}
+
+			.wrap-item9 {
+				background-color: darkcyan;
+				transform: translateX(50px) rotateY(-270deg);
+			}
+
+			/* 上下在X轴上进行偏移 */
+			.wrap-item4 {
+				background-color: darkgoldenrod;
+				transform: translateY(-100px) rotateX(-270deg);
+			}
+
+			.wrap-item5 {
+				background-color: darkgoldenrod;
+				transform: translateY(100px) rotateX(270deg);
+			}
+
+			.wrap-item6 {
+				background-color: darkcyan;
+				transform: translateY(-50px) rotateX(-270deg);
+			}
+
+			.wrap-item7 {
+				background-color: darkcyan;
+				transform: translateY(50px) rotateX(270deg);
+			}
+
+			/* 缩放 */
+			/* 前后在Z轴上进行偏移 */
+			.wrap:hover .wrap-item0 {
+				background-color: darkgoldenrod;
+				transform: translateZ(150px);
+			}
+
+			.wrap:hover .wrap-item1 {
+				background-color: darkgoldenrod;
+				transform: translateZ(-150px);
+			}
+
+			/* 左右在Y轴上进行偏移 */
+			.wrap:hover .wrap-item2 {
+				background-color: darkgoldenrod;
+				transform: translateX(-150px) rotateY(270deg);
+			}
+
+			.wrap:hover .wrap-item3 {
+				background-color: darkgoldenrod;
+				transform: translateX(150px) rotateY(-270deg);
+			}
+
+			/* 上下在X轴上进行偏移 */
+			.wrap:hover .wrap-item4 {
+				background-color: darkgoldenrod;
+				transform: translateY(-150px) rotateX(-270deg);
+			}
+
+			.wrap:hover .wrap-item5 {
+				background-color: darkgoldenrod;
+				transform: translateY(150px) rotateX(270deg);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="demo" class="wrap">
+			<div class="wrap-item" :class="generateClassName(index)" v-for="(item,index) in list" :key="index">{{item.title}}{{index}}</div>
+		</div>
+	</body>
+</html>
+<script src="https://cdn.bootcss.com/vue/2.6.9/vue.js"></script>
+<script>
+	let vue = new Vue({
+		el: '#demo',
+		data: {
+			msg: '哈哈哈',
+			str: 'gg',
+			list: [{
+				title: '前'
+			}, {
+				title: '后'
+			}, {
+				title: '左'
+			}, {
+				title: '右'
+			}, {
+				title: '上'
+			}, {
+				title: '下'
+			}, {
+				title: '里-前'
+			}, {
+				title: '里-后'
+			}, {
+				title: '里-左'
+			}, {
+				title: '里-右'
+			}, ]
+		},
+		methods: {
+			generateClassName(index) {
+				return "wrap-item" + (index);
+			}
+		}
+	})
+</script>

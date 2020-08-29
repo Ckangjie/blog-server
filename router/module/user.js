@@ -182,9 +182,9 @@ module.exports = {
             oldAvatar = params.oldAvatar,
             id = req.headers.userid;
         if (avatar) {
-            if (avatar !== oldAvatar) {
-                common.getJsonFiles("static/user", oldAvatar)
-            }
+            // if (avatar !== oldAvatar) {
+            //     common.getJsonFiles("static/user", oldAvatar)
+            // }
             result = await user.saveInfo([username, avatar, Number(id)])
             if (result) {
                 res.json({
