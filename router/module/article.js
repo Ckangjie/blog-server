@@ -26,7 +26,7 @@ module.exports = {
 			if (result) {
 				res.json({
 					data: result,
-					status: 200,
+					status: 0,
 					total: total
 				})
 			}

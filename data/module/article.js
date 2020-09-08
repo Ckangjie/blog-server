@@ -125,17 +125,16 @@ module.exports = {
 		// let value = ['【484】浙江省巨高电力', '低压开关设备']
 		// let sql = "SELECT a.title,a.price1,a.price2,a.price,a.description,a.indexpic,a.stock,a.images1,a.unit FROM dlysc_commoditity a where a.shopname=? AND a.parentname=?"
 
-
 		// let value = ['【262】海变电力设备有限公司', '成套设备', '环网柜']
 		// let sql = "SELECT a.title,a.price1,a.price2,a.price,a.description,a.indexpic,a.stock,a.images1,a.unit FROM dlysc_commoditity a where a.shopname=? AND a.categoryname =? AND a.parentname=?"
 
 		// let value = ['【14】凯里市众联建筑装修工程有限公司']
 		// let sql = "SELECT a.title,a.price1,a.price2,a.price,a.description,a.indexpic,a.stock,a.images1,a.unit FROM dlysc_commoditity a where a.shopname=? LIMIT 0,300",
 
-		// let value = ['【261】深圳沃尔核材股份有限公司', '成套设备']
+		// let value = ['【1】正航众联电力产品旗舰店', '照明设备']
 		// let sql = "SELECT a.title,a.price1,a.price2,a.price,a.description,a.indexpic,a.stock,a.images1,a.unit FROM dlysc_commoditity a where a.shopname=? AND a.categoryname=? LIMIT 8,30",
 
-		let value = ['【369】湖北铎钜电力金具有限公司']
+		let value = ['【507】贵州正航众联（装饰工程部）']
 		let sql = "SELECT a.title,a.price1,a.price2,a.price,a.description,a.indexpic,a.stock,a.images1,a.unit FROM dlysc_commoditity a where a.shopname=? LIMIT 0,300",
 
 			result = await query(sql, value).catch(err => {
