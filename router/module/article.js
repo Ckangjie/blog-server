@@ -1,3 +1,4 @@
+const { table } = require('console');
 let common = require('../../data/common.js'),
 	article = require('../../data/module/article.js'),
 	url = require('url'),
@@ -26,7 +27,7 @@ module.exports = {
 			if (result) {
 				res.json({
 					data: result,
-					status: 0,
+					status: 200,
 					total: total
 				})
 			}

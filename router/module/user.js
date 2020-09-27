@@ -1,6 +1,6 @@
 let common = require('../../data/common.js'),
     user = require('../../data/module/user'),
-    jwt = require('jsonwebtoken'),
+    jwt = require('../../config/jwt'),
     url = require('url'),
     sendEmail = require('../../config/sendEmail'),
     formidable = require('formidable'),
@@ -21,10 +21,8 @@ module.exports = {
             if (isUser) {
                 // 获取token
                 // sign(加密数据,加密密钥,token存储时间) 加密用户名
-                let token = jwt.sign({ username, username }, 'ckj', {
-                    // token有效时间为15分钟
-                    expiresIn: 60 * 2 * 1
-                })
+                let name = username;
+                let token = jwt.generateToken(name)
                 res.json({
                     status: 200,
                     message: '登录成功',
@@ -58,10 +56,8 @@ module.exports = {
         if (isUser) {
             // 获取token
             // sign(加密数据,加密密钥,token存储时间) 加密用户名
-            let token = jwt.sign({ username, username }, 'ckj', {
-                // token有效时间为15分钟
-                expiresIn: 60 * 2 * 1
-            })
+            let name = username;
+            let token = jwt.generateToken(name)
             res.json({
                 status: 200,
                 message: '登录成功',

@@ -6,7 +6,7 @@ let express = require('express'),
 	obj = {},
 	data = Object.assign(obj, testData, userData),
 	app = express(),
-
+	jwt = require('./config/jwt'),
 	urlencoded = bodyParser.urlencoded({
 		extended: false
 	})
@@ -26,6 +26,29 @@ app.all('*', function (req, res, next) {
 	res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Accept, X-Requested-With , userid, token');
 	next()
 })
+
+// 验证token
+app.use(function (req, res, next) {
+	// 我这里知识把登陆和注册请求去掉了，其他的多有请求都需要进行token校验
+	if (req.url != '/login' && req.url != '/register') {
+		let token = req.headers.token;
+		if (token) {
+			let result = jwt.verifyToken(token);
+			// 如果考验通过就next，否则就返回登陆信息不正确
+			if (result == 'err') {
+				res.json({ status: 403, message: '登录已过期,请重新登录' });
+			} else {
+				next();
+			}
+		} else {
+			next()
+		}
+
+	} else {
+		next();
+	}
+});
+
 
 // 后/前台登录
 app.post('/login', urlencoded, router.login)
