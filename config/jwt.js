@@ -23,5 +23,6 @@ module.exports = {
             res = 'err';
         }
         return res;
-    }
+    },
+
 }
