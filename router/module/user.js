@@ -1,3 +1,4 @@
+const { json } = require('express');
 let common = require('../../data/common.js'),
     user = require('../../data/module/user'),
     jwt = require('../../config/jwt'),
@@ -5,7 +6,9 @@ let common = require('../../data/common.js'),
     sendEmail = require('../../config/sendEmail'),
     formidable = require('formidable'),
     path = require('path'),
-    md5 = require('MD5')
+    md5 = require('md5'),
+    userData = require('../../api/tableExport.json')
+
 
 module.exports = {
     // async loginAdmin(req, res) {
@@ -29,11 +32,9 @@ module.exports = {
                     type: 'success',
                     data: {
                         token,
-                        id: isUser.id
                     }
                 })
             }
-            return false
         }
         // 判断邮箱格式
         if (!username) {
@@ -79,8 +80,14 @@ module.exports = {
     },
     async userInfo(req, res) {
         var token = req.headers.token,
-            id = req.headers.userid;
-        let result = await user.userInfo(Number(id))
+            id = req.headers.userid,
+            result,
+            userName = jwt.verifyToken(token).value;
+        if (['admin', 'test'].includes(userName)) {
+            result = await user.userInfo(userName)
+        } else {
+            result = await user.userInfo(Number(id))
+        }
         if (result) {
             res.json({
                 status: 200,
@@ -90,9 +97,9 @@ module.exports = {
             res.json({
                 status: 208,
                 message: 'token失效',
-
             })
         }
+
 
     },
     // 获取验证码
@@ -195,5 +202,67 @@ module.exports = {
                 message: '请选择图片',
             })
         }
+    },
+
+    // 获取商家数据
+    async getShop(req, res) {
+
+        let result = await user.getShop()
+        var resultList = result.filter((item, index) => {
+            if (item.images.length === 0) {
+                item.images = JSON.stringify([{ "src": item.indexpic }])
+            } else if (item.images.indexOf(']') < 0) {
+                item.images = item.images + '":"1"}]'
+            }
+            return item.user_id != null
+        })
+        if (resultList) {
+            res.json({
+                status: 200,
+                data: resultList
+            })
+        }
+    },
+
+    // 批量插入
+    async addUserData(req, res) {
+        return false
+        let userList = [];
+        userData.data.forEach((item, index) => {
+            userList.push({
+                address: '贵州省-黔南布依族苗族自治州-xxx',
+                birthday: '1991-02-11',
+                details: '暂无简介',
+                id: '',
+                identity: '522326199604089825',
+                identity_photo: 'http://app.zgdljsw.com/static/style/admin/image/logo.png',
+                photo: 'http://app.zgdljsw.com/static/style/admin/image/logo.png',
+                name: item.真实姓名,
+                nickname: item.用户名,
+                time: item.注册时间.substring(0, 10),
+                sex: '男',
+                status: 0,
+                status_des: '0'
+            })
+            // console.log(user)
+            // for (let i in user) {
+            //     console.log(i.name)
+            // }
+        })
+        var list = [];
+        if (userList.length === 63) {
+            userList.forEach((item, index) => {
+                list.push([item.nickname, item.nickname, item.photo, item.details, item.name, item.sex, item.birthday, item.identity, item.identity_photo, item.address, item.time, item.status])
+                // return false
+                // let result = await user.addUserData([item.nickname, item.nickname, item.photo, item.details, item.name, item.sex, item.birthday, item.identity, item.identity_photo, item.address, item.status]);
+                // console.log(result)
+            })
+        }
+        return false
+        let result = await user.addUserData(list);
+        res.json({
+            data: 546,
+            status: 200
+        })
     }
 }

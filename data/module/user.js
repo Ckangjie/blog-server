@@ -63,10 +63,38 @@ module.exports = {
 	},
 	//用户信息
 	userInfo: async function (id) {
-		let sql = 'select * from user where id=?',
+		let sql = ['admin', 'test'].includes(id) ? 'select * from admin where username=?' : 'select * from user where id=?',
 			result = await query(sql, id)
 		if (result.length > 0) {
 			return result[0]
+		}
+	},
+
+	// 获取商家数据
+	getShop: async function () {
+		var sql = "SELECT b.user_id, SUBSTRING(a.shopname,LOCATE('】',a.shopname)+1) shopname,a.title,a.description,a.indexpic,a.`status`,a.price,a.stocks,a.images,a.categoryname,a.unit,b.name FROM dlysc_commoditity a LEFT JOIN db_shop b on SUBSTRING(a.shopname,LOCATE('】',a.shopname)+1)=b.name", flag = false,
+			result = await query(sql)
+		if (result.length > 0) {
+			return result
+		} else {
+			return false
+		}
+
+	},
+	// 批量插入
+	addUserData: async function (data) {
+		var user = false
+		let sql = 'insert into db_user(phone,nickname,photo,details,name,sex,birthday,identity,identity_photo,address,register_date,status) values ?',
+			// let sql = 'select * from db_user';
+			result = await query(sql, [data]).catch(err => {
+				console.log(err)
+			}).then(res => {
+				user = true
+			})
+		if (user) {
+			return user
+		} else {
+			return false
 		}
 	}
 }

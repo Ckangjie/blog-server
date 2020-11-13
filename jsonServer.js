@@ -2,11 +2,12 @@ let express = require('express'),
     router = require('./router/router'),
     bodyParser = require('body-parser'),
     testData = require('./api/test.json'),
-    userData = require('./api/user.json'),
+    userData = require('./api/tableExport.json'),
     obj = {},
     data = Object.assign(obj, testData, userData),
     app = express(),
-
+    user = [],
+    jsonSql = require('json-sql')(),
     urlencoded = bodyParser.urlencoded({
         extended: false
     });
@@ -28,8 +29,10 @@ app.all('*', function (req, res, next) {
 })
 
 // 后/前台登录
-app.post('/getGoods', urlencoded, router.getDlyGoods)
 
-app.post('/getClass', urlencoded, router.getClass)
+// app.post('/getUser', urlencoded, router.addUserData)
+
+
+app.post('/getShop', urlencoded, router.getShop)
 
 app.listen(3002)

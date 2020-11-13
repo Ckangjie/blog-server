@@ -18,6 +18,9 @@ app.use(bodyParser.json({ limit: "2100000kb" }));
 app.use(express.static('./static/images'))
 app.use(express.static('./static/article'))
 app.use(express.static('./static/user'))
+
+// 超时处理
+
 // 跨域
 app.all('*', function (req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*')
