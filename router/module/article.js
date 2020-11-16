@@ -193,7 +193,7 @@ module.exports = {
 	},
 	async articleStatus(req, res) {
 		let params = req.query,
-			result = await article.articleStatus([Number(params.status), params.reason, Number(params.id)])
+			result = await article.articleStatus([Number(params.status), params.reason, params.title, params.content, params.skill, Number(params.id)]);
 		if (result) {
 			res.json({
 				status: 200

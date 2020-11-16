@@ -118,7 +118,7 @@ module.exports = {
 		}
 	},
 	articleStatus: async function (data) {
-		let sql = 'UPDATE article SET status=?,reason=? where id =?',
+		let sql = 'UPDATE article SET status=?,reason=?,title=?,content=?,skill=? where id =?',
 			reslut = await query(sql, data).catch(err => {
 				console.log(err)
 			})
