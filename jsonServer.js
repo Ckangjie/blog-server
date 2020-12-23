@@ -30,9 +30,9 @@ app.all('*', function (req, res, next) {
 
 // 后/前台登录
 
-// app.post('/getUser', urlencoded, router.addUserData)
+app.post('/getUser', urlencoded, router.addUserData)
 
+app.post('/customer/update', urlencoded, router.test)
+// app.post('/getShop', urlencoded, router.getShop)
 
-app.post('/getShop', urlencoded, router.getShop)
-
-app.listen(3002)
+app.listen(3001)

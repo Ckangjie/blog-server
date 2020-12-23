@@ -26,9 +26,10 @@ app.all('*', function (req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*')
 	res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
 	res.header("Access-Control-Allow-Credentials", "true")
-	res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Accept, X-Requested-With , userid, token');
+	res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Accept, X-Requested-With, token');
 	next()
 })
+
 
 // 验证token
 app.use(validate.validate);
@@ -39,7 +40,7 @@ app.post('/login', urlencoded, router.login)
 // app.post('/loginAdmin', urlencoded, router.loginAdmin)
 
 // 退出登录
-app.post('/logout', urlencoded, router.logout)
+app.post('/loginout', urlencoded, router.loginout)
 // 注册
 app.post('/register', urlencoded, router.register)
 // 获取用户信息
@@ -82,6 +83,5 @@ app.post('/comment', urlencoded, router.comment)
 app.get('/commentList', router.commentList)
 // 删除留言
 app.post('/deleteComment', urlencoded, router.deleteComment)
-
-
+//app.post('/customer/update', urlencoded, router.test)
 app.listen(3001)

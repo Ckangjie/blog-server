@@ -27,7 +27,7 @@ module.exports = {
 	},
 	// 验证登录信息
 	login: async function (data) {
-		let sql = !data.includes('admin') ? 'select * from user where name =? and password = ?' : 'select * from admin where username =? and password = ?',
+		let sql = data.includes('client') ? 'select * from user where name =? and password = ?' : 'select * from admin where username =? and password = ?',
 			result = await query(sql, data).catch(err => {
 				console.log(err)
 			})

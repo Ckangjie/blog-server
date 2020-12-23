@@ -1,4 +1,3 @@
-const { json } = require('express');
 let common = require('../../data/common.js'),
     user = require('../../data/module/user'),
     jwt = require('../../config/jwt'),
@@ -11,31 +10,12 @@ let common = require('../../data/common.js'),
 
 
 module.exports = {
-    // async loginAdmin(req, res) {
-    //     console.log(req)
-    // },
     // 登录
     async login(req, res) {
         let username = req.body.username || req.query.username,
             password = req.body.password || req.query.password,
             client = req.body.client || req.query.client;
-        if (client === 'admin') {
-            let isUser = await user.login([username, password, client])
-            if (isUser) {
-                // 获取token
-                // sign(加密数据,加密密钥,token存储时间) 加密用户名
-                let name = username;
-                let token = jwt.generateToken(name)
-                res.json({
-                    status: 200,
-                    message: '登录成功',
-                    type: 'success',
-                    data: {
-                        token,
-                    }
-                })
-            }
-        }
+        const isUser = client === 'admin' ? await user.login([username, password, client]) : await user.login([username, md5(password), client])
         // 判断邮箱格式
         if (!username) {
             res.json({
@@ -51,9 +31,7 @@ module.exports = {
                 message: '密码格式错误'
             })
         }
-
         // 数据库查找邮箱和密码
-        let isUser = await user.login([username, md5(password), client])
         if (isUser) {
             // 获取token
             // sign(加密数据,加密密钥,token存储时间) 加密用户名
@@ -76,6 +54,8 @@ module.exports = {
                 message: '用户名或者密码不正确',
             })
         }
+
+
 
     },
     async userInfo(req, res) {
@@ -151,19 +131,22 @@ module.exports = {
         }
     },
     // 退出登录
-    async logout(req, res) {
+    async loginout(req, res) {
         res.json({
             status: 200
         })
     },
     // 上传头像
     async uploadAvatar(req, res) {
+        console.log(req)
         let form = new formidable.IncomingForm();
         // 保留文件后缀名
         form.keepExtensions = true
         // 存储位置
         form.uploadDir = './static/user'
         form.parse(req, function (err, fields, files) {
+            console.log(files, fields)
+            return false
             let url = path.basename(files.file.path)
             let name = path.basename(files.file.name)
             if (url) {
@@ -226,7 +209,6 @@ module.exports = {
 
     // 批量插入
     async addUserData(req, res) {
-        return false
         let userList = [];
         userData.data.forEach((item, index) => {
             userList.push({
@@ -249,19 +231,18 @@ module.exports = {
             //     console.log(i.name)
             // }
         })
-        var list = [];
-        if (userList.length === 63) {
-            userList.forEach((item, index) => {
-                list.push([item.nickname, item.nickname, item.photo, item.details, item.name, item.sex, item.birthday, item.identity, item.identity_photo, item.address, item.time, item.status])
-                // return false
-                // let result = await user.addUserData([item.nickname, item.nickname, item.photo, item.details, item.name, item.sex, item.birthday, item.identity, item.identity_photo, item.address, item.status]);
-                // console.log(result)
-            })
-        }
-        return false
-        let result = await user.addUserData(list);
+        // var list = [];
+        // if (userList.length === 63) {
+        //     userList.forEach((item, index) => {
+        //         list.push([item.nickname, item.nickname, item.photo, item.details, item.name, item.sex, item.birthday, item.identity, item.identity_photo, item.address, item.time, item.status])
+        //         // return false
+        //         // let result = await user.addUserData([item.nickname, item.nickname, item.photo, item.details, item.name, item.sex, item.birthday, item.identity, item.identity_photo, item.address, item.status]);
+        //         // console.log(result)
+        //     })
+        // }
+        // let result = await user.addUserData(list);
         res.json({
-            data: 546,
+            data: userList,
             status: 200
         })
     }
