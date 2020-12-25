@@ -35,6 +35,12 @@ module.exports = {
 					message: '暂无数据',
 				})
 			}
+		} else {
+			res.json({
+				status: 200,
+				message: '暂无数据',
+				data: []
+			})
 		}
 	},
 	// 文章数量
@@ -62,7 +68,7 @@ module.exports = {
 	// 添加文章
 	async addArticle(req, res) {
 		let params = Object.keys(req.body).length === 0 ? req.query : req.body,
-			data = [params.author, params.content, params.title, params.skill],
+			data = [params.author, params.content, params.title, params.tags, params.category],
 			result = await article.addArticle(data);
 		if (result) {
 			res.json({
@@ -193,9 +199,11 @@ module.exports = {
 	},
 	async articleStatus(req, res) {
 		let params = req.query,
-			result = await article.articleStatus([Number(params.status), params.reason, params.title, params.content, params.skill, Number(params.id)]);
+			result = await article.articleStatus([params.title, params.content, params.skill, params.category, Number(params.id)]);
 		if (result) {
 			res.json({
+				message: '修改成功',
+				type: 'success',
 				status: 200
 			})
 		}

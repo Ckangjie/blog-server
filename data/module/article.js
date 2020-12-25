@@ -2,7 +2,7 @@ var query = require('../mysql.js'), flag = true
 module.exports = {
 	// 添加文章
 	addArticle: async function (data) {
-		let sql = data.indexOf('admin' >= 0) ? 'insert into article(author,content,title,skill,status) values(?,?,?,?,0)' : 'insert into article(author,content,title,skill) values(?,?,?,?)',
+		let sql = data.indexOf('admin' >= 0) ? 'insert into article(author,content,title,skill,category,status) values(?,?,?,?,?,0)' : 'insert into article(author,content,title,skill) values(?,?,?,?)',
 			result = await query(sql, data).catch(err => {
 				console.log(err)
 			})
@@ -12,14 +12,14 @@ module.exports = {
 	},
 	//文章列表
 	articleList: async function (data) {
-		let sql = data.includes('admin') ? 'select a.`status`,a.id,a.content,a.readCount,a.reason,a.time,a.title,b.username from `article` a LEFT JOIN `user` b on a.author=b.name order by time desc limit ?,?' : (data.length > 3 ? 'select * from article where status =0 and author=? order by readCount DESC LIMIT ?,?' : 'select  a.`status`,a.id,a.content,a.readCount,a.reason,a.time,a.title,b.username from `article` a LEFT JOIN `user` b on a.author=b.name and status=0 order by readCount DESC LIMIT ?,?'),
+		let sql = data.includes('admin') ? 'select a.`status`,a.id,a.content,a.readCount,a.reason,a.time,a.title,b.username from `article` a LEFT JOIN `user` b on a.author=b.name order by time desc limit ?,?' : (data.length > 3 ? 'select * from article where status =0 and author=? order by readCount DESC LIMIT ?,?' : 'select  a.`status`,a.id,a.content,a.readCount,a.reason,a.time,a.title,a.category,b.username from `article` a LEFT JOIN `user` b on a.author=b.name and status=0 order by readCount DESC LIMIT ?,?'),
 			result = await query(sql, data).catch(err => {
 				console.log(err)
 			})
 		if (result.length > 0) {
 			return result
 		} else {
-			return false
+			return []
 		}
 	},
 	// 文章数量
@@ -118,7 +118,7 @@ module.exports = {
 		}
 	},
 	articleStatus: async function (data) {
-		let sql = 'UPDATE article SET status=?,reason=?,title=?,content=?,skill=? where id =?',
+		let sql = 'UPDATE article SET title=?,content=?,skill=?,category=? where id =?',
 			reslut = await query(sql, data).catch(err => {
 				console.log(err)
 			})

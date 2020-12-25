@@ -1,10 +1,7 @@
 let express = require('express'),
 	router = require('./router/router'),
 	bodyParser = require('body-parser'),
-	testData = require('./api/test.json'),
-	userData = require('./api/user.json'),
 	obj = {},
-	data = Object.assign(obj, testData, userData),
 	app = express(),
 	validate = require('./config/validate'),
 	urlencoded = bodyParser.urlencoded({
