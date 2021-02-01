@@ -7,7 +7,7 @@ module.exports = {
     //生成token
     generateToken(value) {
         let created = Math.floor(Date.now() / 1000);
-        let token = jwt.sign({ value, exp: created + 60 * 30 }, 'ckj')
+        let token = jwt.sign({ value, exp: created + 60 * 60 }, 'ckj')
         return token;
     },
     // 校验token

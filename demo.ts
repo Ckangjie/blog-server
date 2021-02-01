@@ -20,3 +20,8 @@ for (var i = 1; i <= 9; i++) {
     str += '\r\n'
 }
 console.log(str)
+
+function demo(x: number): number {
+    return x
+}
+console.log(demo(56))

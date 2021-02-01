@@ -1,4 +1,4 @@
-let query = require('../mysql.js')
+var query = require('../mysql.js');
 module.exports = {
 	// 验证用户是否注册
 	isRegister: async function (value) {
@@ -96,5 +96,37 @@ module.exports = {
 		} else {
 			return false
 		}
+	},
+	// 判断是否存在id
+	isWxRegister: async function (id) {
+		let sql = "select wx_name,sex,avatar,city,province from wx_user where open_id=?",
+			result = await query(sql, id)
+		if (result.length > 0) {
+			return result
+		}
+		return []
+	},
+	// 获取数据
+	getWxUser: async function (id) {
+
+	},
+	// 插入用户数据
+	insertWxUser: async function (parmas) {
+		var sql = 'insert into wx_user(wx_name,sex,avatar,open_id,province,city) values(?)',
+			result = query(sql, [parmas]).then(res => {
+				return true
+			}).catch(err => {
+				console.log(err)
+			})
+		return result
+	},
+	// 后台微信用户
+	getWxUser: async function () {
+		let sql = "SELECT * from wx_user",
+			result = await query(sql)
+		if (result.length > 0) {
+			return result
+		}
+		return []
 	}
 }

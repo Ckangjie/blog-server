@@ -4,6 +4,9 @@ let express = require('express'),
 	obj = {},
 	app = express(),
 	validate = require('./config/validate'),
+	fs = require("fs"),
+	https = require("https"),
+	http = require("http"),
 	urlencoded = bodyParser.urlencoded({
 		extended: false
 	})
@@ -15,6 +18,12 @@ app.use(bodyParser.json({ limit: "2100000kb" }));
 app.use(express.static('./static/images'))
 app.use(express.static('./static/article'))
 app.use(express.static('./static/user'))
+
+// https
+const httpsOption = {
+	key: fs.readFileSync("./config/https/secret.key", 'utf8'),
+	cert: fs.readFileSync("./config/https/certificate.pem", 'utf8')
+}
 
 // 超时处理
 
@@ -80,5 +89,40 @@ app.post('/comment', urlencoded, router.comment)
 app.get('/commentList', router.commentList)
 // 删除留言
 app.post('/deleteComment', urlencoded, router.deleteComment)
+// 添加文章分类
+app.post('/addCategory', urlencoded, router.addCategory)
+// 获取文章分类
+app.post('/getCategoryList', urlencoded, router.getCategoryList)
+// 获取分类下的文章
+app.post("/getCatArticle", urlencoded, router.getCatArticle)
 //app.post('/customer/update', urlencoded, router.test)
-app.listen(3001)
+// 微信登录
+app.post('/wxLogin', urlencoded, router.wxLogin)
+// 点赞收藏
+app.post('/fabulous', urlencoded, router.fabulous)
+// 获取点赞数据
+app.post("/getFabulous", urlencoded, router.getFabulous)
+// 添加微信评论
+app.post("/wxComment", urlencoded, router.wxComment)
+// 获取微信评论
+app.post("/getWxComment", urlencoded, router.getWxComment)
+// 获取收藏文章数据
+app.post('/getCollect', urlencoded, router.getCollect)
+//后台微信用户列表
+app.post("/getWxUser", urlencoded, router.getWxUser)
+
+app.get('/test', function (req, res) {
+	if (req.protocol === 'https') {
+		res.status(200).send('Welcome https!');
+	}
+	else {
+		res.status(200).send('Welcome http!');
+	}
+});
+// 程序运行端口
+var httpsServer = https.createServer(httpsOption, app);
+var httpServer = http.createServer(app);
+//https监听3000端口
+// httpsServer.listen(8089);
+//http监听3001端口
+httpServer.listen(8089);

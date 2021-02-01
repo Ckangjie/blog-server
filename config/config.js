@@ -11,13 +11,7 @@ module.exports = {
         }
 
     },
-    // mysql: {
-    //     host: '120.79.186.106',
-    //     port: '3308',
-    //     user: 'root',
-    //     password: 'EAJYhnP8MTX54k2r',
-    //     database: 'blog'
-    // },
+
     mysql: {
         host: '127.0.0.1',
         port: '3307',
@@ -25,11 +19,10 @@ module.exports = {
         password: '123456',
         database: 'blog'
     },
-    // mysql: {
-    //     host: '49.232.174.102',
-    //     port: '3306',
-    //     user: 'api_zgdljsw_com',
-    //     password: 'ZMmjf65Ra8PkhCi8',
-    //     database: 'api_zgdljsw_com'
-    // },
+    WX: {
+        appid: 'wxe164493d4091307e',
+        secret: '511d4daaa58ab984d3ac1b02c4661a0a',
+        grant_type: 'authorization_code'
+    }
+
 }

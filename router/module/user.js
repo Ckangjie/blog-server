@@ -1,12 +1,13 @@
-let common = require('../../data/common.js'),
+var common = require('../../data/common.js'),
     user = require('../../data/module/user'),
     jwt = require('../../config/jwt'),
     url = require('url'),
     sendEmail = require('../../config/sendEmail'),
     formidable = require('formidable'),
     path = require('path'),
-    md5 = require('md5');
-
+    md5 = require('md5'),
+    wxConfig = require('../../config/config').WX,
+    https = require("https");
 
 module.exports = {
     // 登录
@@ -53,9 +54,6 @@ module.exports = {
                 message: '用户名或者密码不正确',
             })
         }
-
-
-
     },
     async userInfo(req, res) {
         var token = req.headers.token,
@@ -182,4 +180,46 @@ module.exports = {
             })
         }
     },
+    // 微信小程序登录
+    async wxLogin(req, res) {
+        var result = "",
+            url = `https://api.weixin.qq.com/sns/jscode2session?appid=${wxConfig.appid}&secret=${wxConfig.secret}&js_code=${req.body.code}&grant_type=authorization_code`;
+        https.get(url, (ress) => {
+            ress.on('data', async (d) => {
+                result = await user.isWxRegister(JSON.parse(d).openid)
+                if (result.length > 0) {
+                    res.json({
+                        status: 200,
+                        data: result,
+                    })
+                    return []
+                }
+                // 注册
+                if (req.body.nickName || req.body.avatarUrl) {
+                    result = await user.insertWxUser([req.body.nickName, req.body.gender, req.body.avatarUrl, JSON.parse(d).openid, req.body.province, req.body.city])
+                    if (result) {
+                        result = await user.isWxRegister(JSON.parse(d).openid)
+                        res.json({
+                            status: 200,
+                            data: result,
+                        })
+                    }
+                }
+                // result = user.insertWxUser([req.body.nickName, req.body.gender, req.body.avatarUrl, JSON.parse(d).openid, req.body.province, req.body.city])
+
+            }).on('error', (err) => {
+                console.error(err);
+            });
+        });
+    },
+    // 后台微信用户列表
+    async getWxUser(req, res) {
+        let result = await user.getWxUser()
+        if (result) {
+            res.json({
+                status: 200,
+                data: result
+            })
+        }
+    }
 }
